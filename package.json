@@ -1,6 +1,6 @@
 {
   "name": "get-shit-done-cc-1m",
-  "version": "1.22.4-1m.2",
+  "version": "1.22.4-1m.3",
   "description": "GSD fork optimized for 1M context windows. Deep codebase awareness, parallel research (6-8 agents), expanded thresholds, Opus max effort, worktree isolation. Based on get-shit-done-cc by TÂCHES.",
   "bin": {
     "get-shit-done-cc-1m": "bin/install.js"
