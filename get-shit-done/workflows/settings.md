@@ -116,7 +116,7 @@ Merge new settings into existing config.json:
 ```json
 {
   ...existing_config,
-  "model_profile": "quality" | "balanced" | "budget",
+  "model_profile": "deep" | "quality" | "balanced" | "budget",
   "workflow": {
     "research": true/false,
     "plan_check": true/false,
@@ -186,7 +186,7 @@ Display:
 
 | Setting              | Value |
 |----------------------|-------|
-| Model Profile        | {quality/balanced/budget} |
+| Model Profile        | {deep/quality/balanced/budget} |
 | Plan Researcher      | {On/Off} |
 | Plan Checker         | {On/Off} |
 | Execution Verifier   | {On/Off} |

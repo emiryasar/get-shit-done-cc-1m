@@ -12,9 +12,9 @@ Read all files referenced by the invoking prompt's execution_context before star
 Validate argument:
 
 ```
-if $ARGUMENTS.profile not in ["quality", "balanced", "budget"]:
+if $ARGUMENTS.profile not in ["deep", "quality", "balanced", "budget"]:
   Error: Invalid profile "$ARGUMENTS.profile"
-  Valid profiles: quality, balanced, budget
+  Valid profiles: deep, quality, balanced, budget
   EXIT
 ```
 </step>
@@ -66,6 +66,7 @@ Next spawned agents will use the new profile.
 ```
 
 Map profile names:
+- deep: use "deep" column from MODEL_PROFILES (all Opus — 1M context optimized)
 - quality: use "quality" column from MODEL_PROFILES
 - balanced: use "balanced" column from MODEL_PROFILES
 - budget: use "budget" column from MODEL_PROFILES
