@@ -49,7 +49,7 @@ npx get-shit-done-cc-1m@latest
 
 ## What's Different in the 1M Fork
 
-This fork of [get-shit-done-cc-1m](https://github.com/emiryasar/get-shit-done-cc-1m) is optimized for Claude Code's 1M context window.
+This fork of [get-shit-done-cc](https://github.com/glittercowboy/get-shit-done) is optimized for Claude Code's 1M context window.
 
 ### Expanded Capacity
 | Metric | Original (200k) | 1M Fork |
