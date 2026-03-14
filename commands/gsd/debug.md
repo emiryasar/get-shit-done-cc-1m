@@ -14,7 +14,7 @@ Debug issues using scientific method with subagent isolation.
 
 **Orchestrator role:** Gather symptoms, spawn gsd-debugger agent, handle checkpoints, spawn continuations.
 
-**Why subagent:** Investigation burns context fast (reading files, forming hypotheses, testing). Fresh 200k context per investigation. Main context stays lean for user interaction.
+**Why subagent:** Investigation burns context fast (reading files, forming hypotheses, testing). Fresh 1M context per investigation. Main context stays lean for user interaction.
 </objective>
 
 <context>

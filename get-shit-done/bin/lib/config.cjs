@@ -14,6 +14,9 @@ const VALID_CONFIG_KEYS = new Set([
   'workflow._auto_chain_active',
   'git.branching_strategy', 'git.phase_branch_template', 'git.milestone_branch_template',
   'planning.commit_docs', 'planning.search_gitignored',
+  'context_tier', 'research_depth', 'worktree_isolation',
+  'parallel_researchers', 'max_tasks_per_plan', 'max_files_per_plan',
+  'analysis_paralysis_threshold',
 ]);
 
 function cmdConfigEnsureSection(cwd, raw) {

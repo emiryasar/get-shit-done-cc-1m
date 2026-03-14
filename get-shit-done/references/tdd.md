@@ -250,7 +250,7 @@ Both follow same format: `{type}({phase}-{plan}): {description}`
 <context_budget>
 ## Context Budget
 
-TDD plans target **~40% context usage** (lower than standard plans' ~50%).
+TDD plans target **~30% context usage (with 1M context, TDD cycles have ample room)** (lower than standard plans' ~50%).
 
 Why lower:
 - RED phase: write test, run test, potentially debug why it didn't fail

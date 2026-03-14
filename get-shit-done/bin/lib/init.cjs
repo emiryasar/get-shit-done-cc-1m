@@ -35,6 +35,10 @@ function cmdInitExecutePhase(cwd, phase, raw) {
     phase_branch_template: config.phase_branch_template,
     milestone_branch_template: config.milestone_branch_template,
     verifier_enabled: config.verifier,
+    context_tier: config.context_tier,
+    research_depth: config.research_depth,
+    parallel_researchers: config.parallel_researchers,
+    max_tasks_per_plan: config.max_tasks_per_plan,
 
     // Phase info
     phase_found: !!phaseInfo,
@@ -106,6 +110,10 @@ function cmdInitPlanPhase(cwd, phase, raw) {
     plan_checker_enabled: config.plan_checker,
     nyquist_validation_enabled: config.nyquist_validation,
     commit_docs: config.commit_docs,
+    context_tier: config.context_tier,
+    research_depth: config.research_depth,
+    parallel_researchers: config.parallel_researchers,
+    max_tasks_per_plan: config.max_tasks_per_plan,
 
     // Phase info
     phase_found: !!phaseInfo,
@@ -193,6 +201,10 @@ function cmdInitNewProject(cwd, raw) {
 
     // Config
     commit_docs: config.commit_docs,
+    context_tier: config.context_tier,
+    research_depth: config.research_depth,
+    parallel_researchers: config.parallel_researchers,
+    max_tasks_per_plan: config.max_tasks_per_plan,
 
     // Existing state
     project_exists: pathExistsInternal(cwd, '.planning/PROJECT.md'),
@@ -231,6 +243,10 @@ function cmdInitNewMilestone(cwd, raw) {
     // Config
     commit_docs: config.commit_docs,
     research_enabled: config.research,
+    context_tier: config.context_tier,
+    research_depth: config.research_depth,
+    parallel_researchers: config.parallel_researchers,
+    max_tasks_per_plan: config.max_tasks_per_plan,
 
     // Current milestone
     current_milestone: milestone.version,
@@ -277,6 +293,10 @@ function cmdInitQuick(cwd, description, raw) {
 
     // Config
     commit_docs: config.commit_docs,
+    context_tier: config.context_tier,
+    research_depth: config.research_depth,
+    parallel_researchers: config.parallel_researchers,
+    max_tasks_per_plan: config.max_tasks_per_plan,
 
     // Quick task info
     quick_id: quickId,

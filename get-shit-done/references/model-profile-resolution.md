@@ -26,6 +26,8 @@ Task(
 
 **Note:** Opus-tier agents resolve to `"inherit"` (not `"opus"`). This causes the agent to use the parent session's model, avoiding conflicts with organization policies that may block specific opus versions.
 
+The four profiles (`deep`, `quality`, `balanced`, `budget`) are defined in model-profiles.md. The `deep` profile uses Opus for all agents and is optimized for 1M context.
+
 ## Usage
 
 1. Resolve once at orchestration start

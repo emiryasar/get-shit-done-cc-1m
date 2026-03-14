@@ -537,14 +537,16 @@ Check if this is greenfield or subsequent milestone:
 
 Display spawning indicator:
 ```
-◆ Spawning 4 researchers in parallel...
+◆ Spawning 6-8 researchers in parallel...
   → Stack research
   → Features research
   → Architecture research
   → Pitfalls research
+  → Testing strategy research
+  → Security & performance research
 ```
 
-Spawn 4 parallel gsd-project-researcher agents with path references:
+Spawn 6-8 parallel gsd-project-researcher agents with path references:
 
 ```
 Task(prompt="<research_type>
@@ -698,9 +700,47 @@ Write to: .planning/research/PITFALLS.md
 Use template: ~/.claude/get-shit-done/templates/research-project/PITFALLS.md
 </output>
 ", subagent_type="gsd-project-researcher", model="{researcher_model}", description="Pitfalls research")
+
+**Researcher 5: Testing Strategy**
+```
+Task(
+  prompt="Research testing strategy for the project.
+
+  Focus on:
+  1. Recommended test frameworks and tools
+  2. Testing patterns (unit, integration, E2E)
+  3. CI/CD testing pipeline recommendations
+  4. Test coverage strategies and benchmarks
+
+  Write output to: .planning/research/TESTING.md",
+  subagent_type="gsd-project-researcher",
+  model="{researcher_model}",
+  description="Research: Testing Strategy",
+  run_in_background=true
+)
 ```
 
-After all 4 agents complete, spawn synthesizer to create SUMMARY.md:
+**Researcher 6: Security & Performance**
+```
+Task(
+  prompt="Research security and performance considerations for the project.
+
+  Focus on:
+  1. Security best practices for this tech stack
+  2. Common vulnerabilities and prevention
+  3. Performance optimization patterns
+  4. Monitoring and observability recommendations
+
+  Write output to: .planning/research/SECURITY.md",
+  subagent_type="gsd-project-researcher",
+  model="{researcher_model}",
+  description="Research: Security & Performance",
+  run_in_background=true
+)
+```
+```
+
+After all 6 agents complete, spawn synthesizer to create SUMMARY.md:
 
 ```
 Task(prompt="
@@ -713,6 +753,8 @@ Synthesize research outputs into SUMMARY.md.
 - .planning/research/FEATURES.md
 - .planning/research/ARCHITECTURE.md
 - .planning/research/PITFALLS.md
+- .planning/research/TESTING.md
+- .planning/research/SECURITY.md
 </files_to_read>
 
 <output>
@@ -1079,6 +1121,8 @@ Exit skill and invoke SlashCommand("/gsd:discuss-phase 1 --auto")
   - `FEATURES.md`
   - `ARCHITECTURE.md`
   - `PITFALLS.md`
+  - `TESTING.md`
+  - `SECURITY.md`
   - `SUMMARY.md`
 - `.planning/REQUIREMENTS.md`
 - `.planning/ROADMAP.md`
@@ -1094,7 +1138,7 @@ Exit skill and invoke SlashCommand("/gsd:discuss-phase 1 --auto")
 - [ ] Deep questioning completed (threads followed, not rushed)
 - [ ] PROJECT.md captures full context → **committed**
 - [ ] config.json has workflow mode, granularity, parallelization → **committed**
-- [ ] Research completed (if selected) — 4 parallel agents spawned → **committed**
+- [ ] Research completed (if selected) — 6 parallel agents spawned → **committed**
 - [ ] Requirements gathered (from research or conversation)
 - [ ] User scoped each category (v1/v2/out of scope)
 - [ ] REQUIREMENTS.md created with REQ-IDs → **committed**

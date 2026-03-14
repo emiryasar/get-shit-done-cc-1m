@@ -246,8 +246,8 @@ Wave 3 runs after Waves 1 and 2. Pauses at checkpoint, orchestrator presents to 
 
 **Plan sizing:**
 
-- 2-3 tasks per plan
-- ~50% context usage maximum
+- 5-8 tasks per plan
+- ~50% context usage target
 - Complex phases: Multiple focused plans, not one large plan
 
 **When to split:**
@@ -506,7 +506,7 @@ files_modified: [...]
 - Prefer vertical slices over horizontal layers
 - Only reference prior SUMMARYs when genuinely needed
 - Group checkpoints with related auto tasks in same plan
-- 2-3 tasks per plan, ~50% context max
+- 5-8 tasks per plan, ~50% context target
 
 ---
 

@@ -16,18 +16,18 @@ function toPosixPath(p) {
 // ─── Model Profile Table ─────────────────────────────────────────────────────
 
 const MODEL_PROFILES = {
-  'gsd-planner':              { quality: 'opus', balanced: 'opus',   budget: 'sonnet' },
-  'gsd-roadmapper':           { quality: 'opus', balanced: 'sonnet', budget: 'sonnet' },
-  'gsd-executor':             { quality: 'opus', balanced: 'sonnet', budget: 'sonnet' },
-  'gsd-phase-researcher':     { quality: 'opus', balanced: 'sonnet', budget: 'haiku' },
-  'gsd-project-researcher':   { quality: 'opus', balanced: 'sonnet', budget: 'haiku' },
-  'gsd-research-synthesizer': { quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
-  'gsd-debugger':             { quality: 'opus', balanced: 'sonnet', budget: 'sonnet' },
-  'gsd-codebase-mapper':      { quality: 'sonnet', balanced: 'haiku', budget: 'haiku' },
-  'gsd-verifier':             { quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
-  'gsd-plan-checker':         { quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
-  'gsd-integration-checker':  { quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
-  'gsd-nyquist-auditor':      { quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
+  'gsd-planner':              { deep: 'opus', quality: 'opus', balanced: 'opus',   budget: 'sonnet' },
+  'gsd-roadmapper':           { deep: 'opus', quality: 'opus', balanced: 'sonnet', budget: 'sonnet' },
+  'gsd-executor':             { deep: 'opus', quality: 'opus', balanced: 'sonnet', budget: 'sonnet' },
+  'gsd-phase-researcher':     { deep: 'opus', quality: 'opus', balanced: 'sonnet', budget: 'haiku' },
+  'gsd-project-researcher':   { deep: 'opus', quality: 'opus', balanced: 'sonnet', budget: 'haiku' },
+  'gsd-research-synthesizer': { deep: 'opus', quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
+  'gsd-debugger':             { deep: 'opus', quality: 'opus', balanced: 'sonnet', budget: 'sonnet' },
+  'gsd-codebase-mapper':      { deep: 'opus', quality: 'sonnet', balanced: 'haiku', budget: 'haiku' },
+  'gsd-verifier':             { deep: 'opus', quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
+  'gsd-plan-checker':         { deep: 'opus', quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
+  'gsd-integration-checker':  { deep: 'opus', quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
+  'gsd-nyquist-auditor':      { deep: 'opus', quality: 'sonnet', balanced: 'sonnet', budget: 'haiku' },
 };
 
 // ─── Output helpers ───────────────────────────────────────────────────────────
@@ -80,6 +80,13 @@ function loadConfig(cwd) {
     nyquist_validation: true,
     parallelization: true,
     brave_search: false,
+    context_tier: '1m',
+    research_depth: 'comprehensive',
+    worktree_isolation: true,
+    parallel_researchers: 8,
+    max_tasks_per_plan: 8,
+    max_files_per_plan: 35,
+    analysis_paralysis_threshold: 15,
   };
 
   try {
@@ -123,6 +130,13 @@ function loadConfig(cwd) {
       parallelization,
       brave_search: get('brave_search') ?? defaults.brave_search,
       model_overrides: parsed.model_overrides || null,
+      context_tier: get('context_tier') || '1m',
+      research_depth: get('research_depth') || 'comprehensive',
+      worktree_isolation: get('worktree_isolation') !== false,
+      parallel_researchers: parseInt(get('parallel_researchers')) || 8,
+      max_tasks_per_plan: parseInt(get('max_tasks_per_plan')) || 8,
+      max_files_per_plan: parseInt(get('max_files_per_plan')) || 35,
+      analysis_paralysis_threshold: parseInt(get('analysis_paralysis_threshold')) || 15,
     };
   } catch {
     return defaults;

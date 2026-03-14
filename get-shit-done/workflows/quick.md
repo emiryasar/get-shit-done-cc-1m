@@ -3,7 +3,7 @@ Execute small, ad-hoc tasks with GSD guarantees (atomic commits, STATE.md tracki
 
 With `--discuss` flag: lightweight discussion phase before planning. Surfaces assumptions, clarifies gray areas, captures decisions in CONTEXT.md so the planner treats them as locked.
 
-With `--full` flag: enables plan-checking (max 2 iterations) and post-execution verification for quality guarantees without full milestone ceremony.
+With `--full` flag: enables plan-checking (max 3 iterations) and post-execution verification for quality guarantees without full milestone ceremony.
 
 Flags are composable: `--discuss --full` gives discussion + plan-checking + verification.
 </purpose>
@@ -104,6 +104,54 @@ Directory: ${QUICK_DIR}
 ```
 
 Store `$QUICK_DIR` for use in orchestration.
+
+---
+
+**Step 4.3: Codebase pre-scan (only when `$FULL_MODE`)**
+
+Skip this step entirely if NOT `$FULL_MODE`.
+
+Spawn 2 parallel background researchers to gather context before planning:
+
+```
+Task(
+  prompt="Scan the codebase for files and patterns related to: ${DESCRIPTION}
+
+  <files_to_read>
+  - ./CLAUDE.md (if exists)
+  - .planning/codebase/ (all maps, if exist)
+  </files_to_read>
+
+  Search for:
+  1. All files that would be affected by this task
+  2. Existing patterns and conventions in those files
+  3. Dependencies and imports between affected files
+  4. Related test files
+
+  Write findings to: ${QUICK_DIR}/${next_num}-CODEBASE-SCAN.md",
+  subagent_type="Explore",
+  model="opus",
+  description="Codebase scan: ${DESCRIPTION}",
+  run_in_background=true
+)
+
+Task(
+  prompt="Research best practices and patterns for: ${DESCRIPTION}
+
+  Focus on:
+  1. Current best practices for this type of change
+  2. Common pitfalls to avoid
+  3. Recommended patterns from official documentation
+
+  Write findings to: ${QUICK_DIR}/${next_num}-RESEARCH.md",
+  subagent_type="gsd-phase-researcher",
+  model="{researcher_model}",
+  description="Quick research: ${DESCRIPTION}",
+  run_in_background=true
+)
+```
+
+Wait for both to complete. Add their output files to planner's files_to_read.
 
 ---
 
@@ -252,6 +300,8 @@ Task(
 <files_to_read>
 - .planning/STATE.md (Project State)
 - ./CLAUDE.md (if exists — follow project-specific guidelines)
+- All package-specific CLAUDE.md files in affected directories
+- .planning/codebase/ maps (if exist)
 ${DISCUSS_MODE ? '- ' + QUICK_DIR + '/' + quick_id + '-CONTEXT.md (User decisions — locked, do not revisit)' : ''}
 </files_to_read>
 
@@ -260,12 +310,16 @@ ${DISCUSS_MODE ? '- ' + QUICK_DIR + '/' + quick_id + '-CONTEXT.md (User decision
 </planning_context>
 
 <constraints>
-- Create a SINGLE plan with 1-3 focused tasks
+- Create a SINGLE plan with 1-6 focused tasks
 - Quick tasks should be atomic and self-contained
-- No research phase
-${FULL_MODE ? '- Target ~40% context usage (structured for verification)' : '- Target ~30% context usage (simple, focused)'}
+- Lightweight codebase scan (read related files before planning)
+${FULL_MODE ? '- Target ~50% context usage (comprehensive with verification)' : '- Target ~40% context usage (simple, focused)'}
 ${FULL_MODE ? '- MUST generate `must_haves` in plan frontmatter (truths, artifacts, key_links)' : ''}
 ${FULL_MODE ? '- Each task MUST have `files`, `action`, `verify`, `done` fields' : ''}
+${FULL_MODE ? '- Spawn 2 parallel background researchers before planning: (1) Codebase scanner for related files, (2) Domain researcher for best practices' : ''}
+${FULL_MODE ? '- Read ALL files that will be modified before creating the plan' : ''}
+- Deep codebase awareness: Read ALL files in directories that will be modified
+- Reference specific existing functions, classes, and patterns in task actions
 </constraints>
 
 <output>
@@ -346,13 +400,13 @@ Task(
 - **`## VERIFICATION PASSED`:** Display confirmation, proceed to step 6.
 - **`## ISSUES FOUND`:** Display issues, check iteration count, enter revision loop.
 
-**Revision loop (max 2 iterations):**
+**Revision loop (max 3 iterations):**
 
 Track `iteration_count` (starts at 1 after initial plan + check).
 
-**If iteration_count < 2:**
+**If iteration_count < 3:**
 
-Display: `Sending back to planner for revision... (iteration ${N}/2)`
+Display: `Sending back to planner for revision... (iteration ${N}/3)`
 
 Revision prompt:
 
@@ -386,7 +440,7 @@ Task(
 
 After planner returns → spawn checker again, increment iteration_count.
 
-**If iteration_count >= 2:**
+**If iteration_count >= 3:**
 
 Display: `Max iterations reached. ${N} issues remain:` + issue list
 
@@ -602,7 +656,7 @@ Ready for next task: /gsd:quick
 - [ ] Directory created at `.planning/quick/YYMMDD-xxx-slug/`
 - [ ] (--discuss) Gray areas identified and presented, decisions captured in `${quick_id}-CONTEXT.md`
 - [ ] `${quick_id}-PLAN.md` created by planner (honors CONTEXT.md decisions when --discuss)
-- [ ] (--full) Plan checker validates plan, revision loop capped at 2
+- [ ] (--full) Plan checker validates plan, revision loop capped at 3
 - [ ] `${quick_id}-SUMMARY.md` created by executor
 - [ ] (--full) `${quick_id}-VERIFICATION.md` created by verifier
 - [ ] STATE.md updated with quick task row (Status column when --full)

@@ -33,11 +33,24 @@ Before executing, discover project context:
 1. List available skills (subdirectories)
 2. Read `SKILL.md` for each skill (lightweight index ~130 lines)
 3. Load specific `rules/*.md` files as needed during implementation
-4. Do NOT load full `AGENTS.md` files (100KB+ context cost)
+4. Load relevant `AGENTS.md` files when needed for comprehensive execution context
 5. Follow skill rules relevant to your current task
 
 This ensures project-specific patterns, conventions, and best practices are applied during execution.
 </project_context>
+
+<deep_context_loading>
+**1M Context Advantage — Deep File Understanding**
+
+Before executing each task, leverage your full context window:
+1. Read ALL files listed in the task's `<files>` field
+2. Read direct imports/dependencies of those files
+3. Read related test files if they exist
+4. Read package-specific CLAUDE.md files for conventions
+5. Understand the full context before making any changes
+
+You have 1M tokens — use them to understand deeply rather than guessing. Reading 50+ files before a complex task is normal and expected. The analysis paralysis guard (15+ reads without action) exists for truly stuck situations, not for thorough preparation.
+</deep_context_loading>
 
 <execution_flow>
 
@@ -174,14 +187,32 @@ Only auto-fix issues DIRECTLY caused by the current task's changes. Pre-existing
 - Do NOT re-run builds hoping they resolve themselves
 
 **FIX ATTEMPT LIMIT:**
-Track auto-fix attempts per task. After 3 auto-fix attempts on a single task:
+Track auto-fix attempts per task. After 5 auto-fix attempts on a single task:
 - STOP fixing — document remaining issues in SUMMARY.md under "Deferred Issues"
 - Continue to the next task (or return checkpoint if blocked)
 - Do NOT restart the build to find more issues
 </deviation_rules>
 
+<uncertainty_protocol>
+**When Uncertain — Ask, Don't Guess**
+
+If during task execution you encounter ambiguity that could lead to incorrect implementation:
+1. **Architectural ambiguity** — Multiple valid approaches with different tradeoffs → STOP, return checkpoint with options
+2. **Requirements ambiguity** — Task action is unclear or contradictory → STOP, ask via checkpoint
+3. **Codebase ambiguity** — Existing patterns conflict with task instructions → Follow existing patterns, document deviation
+4. **External dependency ambiguity** — Library API unclear → Research first (Context7, WebFetch), then implement
+
+Never guess on:
+- Authentication/security decisions
+- Data model changes that affect other systems
+- API contract changes that affect consumers
+- Performance-critical algorithm choices
+
+When in doubt, prefer a checkpoint over a wrong implementation. Wrong code costs more context to fix than a brief pause.
+</uncertainty_protocol>
+
 <analysis_paralysis_guard>
-**During task execution, if you make 5+ consecutive Read/Grep/Glob calls without any Edit/Write/Bash action:**
+**During task execution, if you make 15+ consecutive Read/Grep/Glob calls without any Edit/Write/Bash action:**
 
 STOP. State in one sentence why you haven't written anything yet. Then either:
 1. Write code (you have enough context), or

@@ -107,7 +107,7 @@ node "$HOME/.claude/get-shit-done/bin/gsd-tools.cjs" config-set workflow.researc
  GSD ► RESEARCHING
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-◆ Spawning 4 researchers in parallel...
+◆ Spawning 6-8 researchers in parallel...
   → Stack, Features, Architecture, Pitfalls
 ```
 
@@ -115,9 +115,9 @@ node "$HOME/.claude/get-shit-done/bin/gsd-tools.cjs" config-set workflow.researc
 mkdir -p .planning/research
 ```
 
-Spawn 4 parallel gsd-project-researcher agents. Each uses this template with dimension-specific fields:
+Spawn 6-8 parallel gsd-project-researcher agents. Each uses this template with dimension-specific fields:
 
-**Common structure for all 4 researchers:**
+**Common structure for all researchers:**
 ```
 Task(prompt="
 <research_type>Project Research — {DIMENSION} for [new features].</research_type>
@@ -370,7 +370,7 @@ Also: `/gsd:plan-phase [N]` — skip discussion, plan directly
 - [ ] PROJECT.md updated with Current Milestone section
 - [ ] STATE.md reset for new milestone
 - [ ] MILESTONE-CONTEXT.md consumed and deleted (if existed)
-- [ ] Research completed (if selected) — 4 parallel agents, milestone-aware
+- [ ] Research completed (if selected) — 6-8 parallel agents, milestone-aware
 - [ ] Requirements gathered and scoped per category
 - [ ] REQUIREMENTS.md created with REQ-IDs
 - [ ] gsd-roadmapper spawned with phase numbering context

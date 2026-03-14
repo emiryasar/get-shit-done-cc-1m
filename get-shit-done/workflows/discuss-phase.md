@@ -224,7 +224,7 @@ Structure the extracted information:
 </step>
 
 <step name="scout_codebase">
-Lightweight scan of existing code to inform gray area identification and discussion. Uses ~10% context — acceptable for an interactive session.
+Deep scan of existing code to inform gray area identification and discussion. Uses ~25% context — acceptable for an interactive session with 1M context.
 
 **Step 1: Check for existing codebase maps**
 ```bash
@@ -253,6 +253,9 @@ ls src/lib/ src/utils/ 2>/dev/null
 ```
 
 Read the 3-5 most relevant files to understand existing patterns.
+- With 1M context, read up to 50 related files during scouting
+- Scan ALL directories that might be affected by the phase
+- Extract specific function signatures and class hierarchies
 
 **Step 3: Build internal codebase_context**
 

@@ -206,9 +206,9 @@ Read granularity from config.json. Granularity controls compression tolerance.
 
 | Granularity | Typical Phases | What It Means |
 |-------------|----------------|---------------|
-| Coarse | 3-5 | Combine aggressively, critical path only |
-| Standard | 5-8 | Balanced grouping |
-| Fine | 8-12 | Let natural boundaries stand |
+| Coarse | 5-8 | Combine aggressively, critical path only |
+| Standard | 8-12 | Balanced grouping |
+| Fine | 12-18 | Let natural boundaries stand |
 
 **Key:** Derive phases from work, then apply granularity as compression guidance. Don't pad small projects or compress complex ones.
 

@@ -4,22 +4,29 @@ Model profiles control which Claude model each GSD agent uses. This allows balan
 
 ## Profile Definitions
 
-| Agent | `quality` | `balanced` | `budget` |
-|-------|-----------|------------|----------|
-| gsd-planner | opus | opus | sonnet |
-| gsd-roadmapper | opus | sonnet | sonnet |
-| gsd-executor | opus | sonnet | sonnet |
-| gsd-phase-researcher | opus | sonnet | haiku |
-| gsd-project-researcher | opus | sonnet | haiku |
-| gsd-research-synthesizer | sonnet | sonnet | haiku |
-| gsd-debugger | opus | sonnet | sonnet |
-| gsd-codebase-mapper | sonnet | haiku | haiku |
-| gsd-verifier | sonnet | sonnet | haiku |
-| gsd-plan-checker | sonnet | sonnet | haiku |
-| gsd-integration-checker | sonnet | sonnet | haiku |
-| gsd-nyquist-auditor | sonnet | sonnet | haiku |
+| Agent | `deep` | `quality` | `balanced` | `budget` |
+|-------|--------|-----------|------------|----------|
+| gsd-planner | opus | opus | opus | sonnet |
+| gsd-roadmapper | opus | opus | sonnet | sonnet |
+| gsd-executor | opus | opus | opus | sonnet |
+| gsd-phase-researcher | opus | opus | sonnet | haiku |
+| gsd-project-researcher | opus | opus | sonnet | haiku |
+| gsd-research-synthesizer | opus | sonnet | sonnet | haiku |
+| gsd-debugger | opus | opus | sonnet | sonnet |
+| gsd-codebase-mapper | opus | sonnet | haiku | haiku |
+| gsd-verifier | opus | sonnet | sonnet | haiku |
+| gsd-plan-checker | opus | sonnet | sonnet | haiku |
+| gsd-integration-checker | opus | sonnet | sonnet | haiku |
+| gsd-nyquist-auditor | opus | sonnet | sonnet | haiku |
 
 ## Profile Philosophy
+
+**deep** - Maximum capability with 1M context
+- Opus for ALL agents — no model compromise anywhere
+- Designed for 1M context windows where depth matters
+- Max effort on every agent — comprehensive research, thorough planning, deep execution
+- Use when: 1M context available, complex architecture, critical work requiring zero shortcuts
+- All agents run with full codebase awareness and comprehensive file reading
 
 **quality** - Maximum reasoning power
 - Opus for all decision-making agents
@@ -27,7 +34,8 @@ Model profiles control which Claude model each GSD agent uses. This allows balan
 - Use when: quota available, critical architecture work
 
 **balanced** (default) - Smart allocation
-- Opus only for planning (where architecture decisions happen)
+- Opus for planning and execution (1M context makes this affordable)
+- Sonnet for research and verification
 - Sonnet for execution and research (follows explicit instructions)
 - Sonnet for verification (needs reasoning, not just pattern matching)
 - Use when: normal development, good balance of quality and cost
@@ -91,3 +99,14 @@ Read-only exploration and pattern extraction. No reasoning required, just struct
 
 **Why `inherit` instead of passing `opus` directly?**
 Claude Code's `"opus"` alias maps to a specific model version. Organizations may block older opus versions while allowing newer ones. GSD returns `"inherit"` for opus-tier agents, causing them to use whatever opus version the user has configured in their session. This avoids version conflicts and silent fallbacks to Sonnet.
+
+## 1M Context Guidelines
+
+When using `deep` or `quality` profiles with 1M context:
+- Agents should read comprehensively before acting (50+ files is normal)
+- Analysis paralysis guard is relaxed (15+ reads without action)
+- Plans can have 5-8 tasks (up from 2-3)
+- Plans can modify 20-35 files (up from 5-8)
+- Parallel researchers: 6-8 (up from 4)
+- Research depth: comprehensive multi-source verification
+- All agents use max effort for reasoning

@@ -16,7 +16,7 @@ skills:
 <role>
 GSD Nyquist auditor. Spawned by /gsd:validate-phase to fill validation gaps in completed phases.
 
-For each gap in `<gaps>`: generate minimal behavioral test, run it, debug if failing (max 3 iterations), report results.
+For each gap in `<gaps>`: generate minimal behavioral test, run it, debug if failing (max 5 iterations), report results.
 
 **Mandatory Initial Read:** If prompt contains `<files_to_read>`, load ALL listed files before any action.
 
@@ -76,7 +76,7 @@ Run every test. Never mark untested tests as passing.
 </step>
 
 <step name="debug_loop">
-Max 3 iterations per failing test.
+Max 5 iterations per failing test.
 
 | Failure Type | Action |
 |--------------|--------|
@@ -87,7 +87,7 @@ Max 3 iterations per failing test.
 
 Track: `{ gap_id, iteration, error_type, action, result }`
 
-After 3 failed iterations: ESCALATE with requirement, expected vs actual behavior, impl file reference.
+After 5 failed iterations: ESCALATE with requirement, expected vs actual behavior, impl file reference.
 </step>
 
 <step name="report">
@@ -139,7 +139,7 @@ Return one of three formats below.
 ### Escalated
 | Task ID | Requirement | Reason | Iterations |
 |---------|-------------|--------|------------|
-| {id} | {req} | {reason} | {N}/3 |
+| {id} | {req} | {reason} | {N}/5 |
 
 ### Files for Commit
 {test file paths for resolved gaps}
@@ -156,7 +156,7 @@ Return one of three formats below.
 ### Details
 | Task ID | Requirement | Reason | Iterations |
 |---------|-------------|--------|------------|
-| {id} | {req} | {reason} | {N}/3 |
+| {id} | {req} | {reason} | {N}/5 |
 
 ### Recommendations
 - **{req}:** {manual test instructions or implementation fix needed}
@@ -171,7 +171,7 @@ Return one of three formats below.
 - [ ] Tests verify behavior, not structure
 - [ ] Every test executed — none marked passing without running
 - [ ] Implementation files never modified
-- [ ] Max 3 debug iterations per gap
+- [ ] Max 5 debug iterations per gap
 - [ ] Implementation bugs escalated, not fixed
 - [ ] Structured return provided (GAPS FILLED / PARTIAL / ESCALATE)
 - [ ] Test files listed for commit

@@ -69,6 +69,14 @@ Don't find articles supporting your initial guess — find what the ecosystem ac
 | **Feasibility** | "Can we do X?" | Technical achievability, constraints, blockers, complexity | YES/NO/MAYBE, required tech, limitations, risks |
 | **Comparison** | "Compare A vs B" | Features, performance, DX, ecosystem | Comparison matrix, recommendation, tradeoffs |
 
+**Comprehensive Research (1M Context):**
+With 1M context available, research should be exhaustive:
+- Explore 25+ search results per query (up from 10)
+- Verify every critical finding with 3+ independent sources
+- Include version-specific information with dates
+- Compare at least 3 alternatives for any technology recommendation
+- Document WHY alternatives were rejected, not just which was chosen
+
 </research_modes>
 
 <tool_strategy>
@@ -107,11 +115,11 @@ Always include current year. Use multiple query variations. Mark WebSearch-only 
 Check `brave_search` from orchestrator context. If `true`, use Brave Search for higher quality results:
 
 ```bash
-node "$HOME/.claude/get-shit-done/bin/gsd-tools.cjs" websearch "your query" --limit 10
+node "$HOME/.claude/get-shit-done/bin/gsd-tools.cjs" websearch "your query" --limit 25
 ```
 
 **Options:**
-- `--limit N` — Number of results (default: 10)
+- `--limit N` — Number of results (default: 25)
 - `--freshness day|week|month` — Restrict to recent content
 
 If `brave_search: false` (or not set), use built-in WebSearch tool instead.
@@ -141,6 +149,14 @@ Never present LOW confidence findings as authoritative.
 | LOW | WebSearch only, single source, unverified | Flag as needing validation |
 
 **Source priority:** Context7 → Official Docs → Official GitHub → WebSearch (verified) → WebSearch (unverified)
+
+**1M Context Deep Research Protocol:**
+- Read ALL existing codebase files related to the research topic before searching externally
+- Cross-reference findings with existing codebase patterns
+- Verify 3+ independent sources for critical claims (up from 2)
+- Use comprehensive WebSearch queries (limit 25 results)
+- Always check Context7 AND official docs AND community sources
+- Document confidence levels for every finding
 
 </tool_strategy>
 

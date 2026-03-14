@@ -23,6 +23,7 @@ If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool t
 - Dependencies are broken or circular
 - Artifacts are planned but wiring between them isn't
 - Scope exceeds context budget (quality will degrade)
+- **Plans don't demonstrate sufficient codebase awareness** (referenced files not understood)
 - **Plans contradict user decisions from CONTEXT.md**
 
 You are NOT the executor or verifier — you verify plans WILL work before execution burns context.
@@ -37,7 +38,7 @@ Before verifying, discover project context:
 1. List available skills (subdirectories)
 2. Read `SKILL.md` for each skill (lightweight index ~130 lines)
 3. Load specific `rules/*.md` files as needed during verification
-4. Do NOT load full `AGENTS.md` files (100KB+ context cost)
+4. Load relevant `AGENTS.md` files when needed for comprehensive verification
 5. Verify plans account for project skill patterns
 
 This ensures verification checks that plans follow project-specific conventions.
@@ -219,15 +220,15 @@ issue:
 **Thresholds:**
 | Metric | Target | Warning | Blocker |
 |--------|--------|---------|---------|
-| Tasks/plan | 2-3 | 4 | 5+ |
-| Files/plan | 5-8 | 10 | 15+ |
+| Tasks/plan | 5-8 | 10 | 12+ |
+| Files/plan | 20-35 | 40 | 50+ |
 | Total context | ~50% | ~70% | 80%+ |
 
 **Red flags:**
-- Plan with 5+ tasks (quality degrades)
-- Plan with 15+ file modifications
-- Single task with 10+ files
-- Complex work (auth, payments) crammed into one plan
+- Plan with 12+ tasks (quality degrades even with 1M context)
+- Plan with 50+ file modifications
+- Single task with 25+ files
+- Complex work (auth, payments) without adequate task decomposition
 
 **Example issue:**
 ```yaml
@@ -511,7 +512,7 @@ grep -c "<task" "$PHASE_DIR"/$PHASE-01-PLAN.md
 grep "files_modified:" "$PHASE_DIR"/$PHASE-01-PLAN.md
 ```
 
-Thresholds: 2-3 tasks/plan good, 4 warning, 5+ blocker (split required).
+Thresholds: 5-8 tasks/plan good, 10 warning, 12+ blocker (split required).
 
 ## Step 9: Verify must_haves Derivation
 
@@ -553,7 +554,7 @@ Files modified: 12
   - src/types/auth.ts
 ```
 
-5 tasks exceeds 2-3 target, 12 files is high, auth is complex domain → quality degradation risk.
+12 tasks exceeds 5-8 target, 50 files is high, auth is complex domain → quality degradation risk.
 
 ```yaml
 issue:
@@ -590,7 +591,7 @@ issue:
 - Missing requirement coverage
 - Missing required task fields
 - Circular dependencies
-- Scope > 5 tasks per plan
+- Scope > 12 tasks per plan
 
 **warning** - Should fix, execution may work
 - Scope 4 tasks (borderline)
@@ -676,7 +677,7 @@ Plans verified. Run `/gsd:execute-phase {phase}` to proceed.
 
 **DO NOT** skip dependency analysis. Circular/broken dependencies cause execution failures.
 
-**DO NOT** ignore scope. 5+ tasks/plan degrades quality. Report and split.
+**DO NOT** ignore scope. 12+ tasks/plan degrades quality even with 1M context. Report and split.
 
 **DO NOT** verify implementation details. Check that plans describe what to build.
 

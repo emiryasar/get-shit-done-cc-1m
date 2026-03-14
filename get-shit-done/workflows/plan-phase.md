@@ -1,5 +1,5 @@
 <purpose>
-Create executable phase prompts (PLAN.md files) for a roadmap phase with integrated research and verification. Default flow: Research (if needed) -> Plan -> Verify -> Done. Orchestrates gsd-phase-researcher, gsd-planner, and gsd-plan-checker agents with a revision loop (max 3 iterations).
+Create executable phase prompts (PLAN.md files) for a roadmap phase with integrated research and verification. Default flow: Research (if needed) -> Plan -> Verify -> Done. Orchestrates gsd-phase-researcher, gsd-planner, and gsd-plan-checker agents with a revision loop (max 4 iterations).
 </purpose>
 
 <required_reading>
@@ -231,6 +231,12 @@ Task(
 )
 ```
 
+**Parallel Research (1M Context):**
+When `parallel_researchers` config > 1, spawn research in parallel:
+- Researcher 1: Domain/technical research (gsd-phase-researcher)
+- Researcher 2: Codebase deep scan (Explore agent scanning all related files)
+Both write to phase directory. Planner reads both outputs.
+
 ### Handle Researcher Return
 
 - **`## RESEARCH COMPLETE`:** Display confirmation, continue to step 6
@@ -322,6 +328,8 @@ Planner prompt:
 - {research_path} (Technical Research)
 - {verification_path} (Verification Gaps - if --gaps)
 - {uat_path} (UAT Gaps - if --gaps)
+- All package-specific CLAUDE.md files in directories mentioned in requirements
+- .planning/codebase/ maps (if exist)
 </files_to_read>
 
 **Phase requirement IDs (every ID MUST appear in a plan's `requirements` field):** {phase_req_ids}
@@ -447,13 +455,13 @@ Task(
 - **`## VERIFICATION PASSED`:** Display confirmation, proceed to step 13.
 - **`## ISSUES FOUND`:** Display issues, check iteration count, proceed to step 12.
 
-## 12. Revision Loop (Max 3 Iterations)
+## 12. Revision Loop (Max 4 Iterations)
 
 Track `iteration_count` (starts at 1 after initial plan + check).
 
-**If iteration_count < 3:**
+**If iteration_count < 4:**
 
-Display: `Sending back to planner for revision... (iteration {N}/3)`
+Display: `Sending back to planner for revision... (iteration {N}/4)`
 
 Revision prompt:
 
@@ -488,7 +496,7 @@ Task(
 
 After planner returns -> spawn checker again (step 10), increment iteration_count.
 
-**If iteration_count >= 3:**
+**If iteration_count >= 4:**
 
 Display: `Max iterations reached. {N} issues remain:` + issue list
 

@@ -3,7 +3,7 @@ Orchestrate parallel codebase mapper agents to analyze codebase and produce stru
 
 Each agent has fresh context, explores a specific focus area, and **writes documents directly**. The orchestrator only receives confirmation + line counts, then writes a summary.
 
-Output: .planning/codebase/ folder with 7 structured documents about the codebase state.
+Output: .planning/codebase/ folder with 9 structured documents about the codebase state.
 </purpose>
 
 <philosophy>
@@ -72,18 +72,20 @@ mkdir -p .planning/codebase
 
 **Expected output files:**
 - STACK.md (from tech mapper)
-- INTEGRATIONS.md (from tech mapper)
+- INTEGRATIONS.md (from tech mapper + dependencies mapper)
 - ARCHITECTURE.md (from arch mapper)
 - STRUCTURE.md (from arch mapper)
 - CONVENTIONS.md (from quality mapper)
 - TESTING.md (from quality mapper)
 - CONCERNS.md (from concerns mapper)
+- DEPENDENCIES.md (from dependencies mapper)
+- PERFORMANCE.md (from performance-security mapper)
 
 Continue to spawn_agents.
 </step>
 
 <step name="spawn_agents">
-Spawn 4 parallel gsd-codebase-mapper agents.
+Spawn 6 parallel gsd-codebase-mapper agents.
 
 Use Task tool with `subagent_type="gsd-codebase-mapper"`, `model="{mapper_model}"`, and `run_in_background=true` for parallel execution.
 
@@ -168,11 +170,50 @@ Explore thoroughly. Write document directly using template. Return confirmation 
 )
 ```
 
+**Agent 5: Dependencies & Integration Points**
+
+```
+Task(
+  subagent_type="gsd-codebase-mapper",
+  model="{mapper_model}",
+  run_in_background=true,
+  description="Map codebase dependencies",
+  prompt="Focus: dependencies
+
+Analyze this codebase for external dependencies, API boundaries, and integration patterns.
+
+Write these documents to .planning/codebase/:
+- DEPENDENCIES.md - External package dependencies, version constraints, upgrade paths
+- INTEGRATIONS.md (enhanced) - Merge with existing if present; add API boundaries, service contracts, webhook patterns
+
+Explore thoroughly. Write documents directly using templates. Return confirmation only."
+)
+```
+
+**Agent 6: Performance & Security Patterns**
+
+```
+Task(
+  subagent_type="gsd-codebase-mapper",
+  model="{mapper_model}",
+  run_in_background=true,
+  description="Map codebase performance and security",
+  prompt="Focus: performance-security
+
+Analyze this codebase for caching patterns, security measures, and performance hotspots.
+
+Write this document to .planning/codebase/:
+- PERFORMANCE.md - Caching strategies, security measures, performance patterns, bottleneck areas
+
+Explore thoroughly. Write document directly using template. Return confirmation only."
+)
+```
+
 Continue to collect_confirmations.
 </step>
 
 <step name="collect_confirmations">
-Wait for all 4 agents to complete.
+Wait for all 6 agents to complete.
 
 Read each agent's output file to collect confirmations.
 
@@ -204,7 +245,7 @@ wc -l .planning/codebase/*.md
 ```
 
 **Verification checklist:**
-- All 7 documents exist
+- All 9 documents exist
 - No empty documents (each should have >20 lines)
 
 If any documents missing or empty, note which agents may have failed.
@@ -278,6 +319,8 @@ Created .planning/codebase/:
 - TESTING.md ([N] lines) - Test structure and practices
 - INTEGRATIONS.md ([N] lines) - External services and APIs
 - CONCERNS.md ([N] lines) - Technical debt and issues
+- DEPENDENCIES.md ([N] lines) - External dependencies and version constraints
+- PERFORMANCE.md ([N] lines) - Performance patterns and security measures
 
 
 ---
@@ -307,10 +350,10 @@ End workflow.
 
 <success_criteria>
 - .planning/codebase/ directory created
-- 4 parallel gsd-codebase-mapper agents spawned with run_in_background=true
+- 6 parallel gsd-codebase-mapper agents spawned with run_in_background=true
 - Agents write documents directly (orchestrator doesn't receive document contents)
 - Read agent output files to collect confirmations
-- All 7 codebase documents exist
+- All 9 codebase documents exist
 - Clear completion summary with line counts
 - User offered clear next steps in GSD style
 </success_criteria>

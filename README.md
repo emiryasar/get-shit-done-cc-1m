@@ -4,21 +4,23 @@
 
 **A light-weight and powerful meta-prompting, context engineering and spec-driven development system for Claude Code, OpenCode, Gemini CLI, and Codex.**
 
+**1M Context Fork** — Optimized for Claude's 1M context window. Deep codebase awareness, 6-8 parallel research agents, expanded plan thresholds (5-8 tasks/plan, 20-35 files/plan), Opus max effort on all agents, worktree isolation for parallel execution, and comprehensive multi-source research verification.
+
 **Solves context rot — the quality degradation that happens as Claude fills its context window.**
 
-[![npm version](https://img.shields.io/npm/v/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
-[![npm downloads](https://img.shields.io/npm/dm/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
-[![Tests](https://img.shields.io/github/actions/workflow/status/glittercowboy/get-shit-done/test.yml?branch=main&style=for-the-badge&logo=github&label=Tests)](https://github.com/glittercowboy/get-shit-done/actions/workflows/test.yml)
+[![npm version](https://img.shields.io/npm/v/get-shit-done-cc-1m?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc-1m)
+[![npm downloads](https://img.shields.io/npm/dm/get-shit-done-cc-1m?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc-1m)
+[![Tests](https://img.shields.io/github/actions/workflow/status/emiryasar/get-shit-done-cc-1m/test.yml?branch=main&style=for-the-badge&logo=github&label=Tests)](https://github.com/emiryasar/get-shit-done-cc-1m/actions/workflows/test.yml)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/gsd)
 [![X (Twitter)](https://img.shields.io/badge/X-@gsd__foundation-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/gsd_foundation)
 [![$GSD Token](https://img.shields.io/badge/$GSD-Dexscreener-1C1C1C?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgZmlsbD0iIzAwRkYwMCIvPjwvc3ZnPg==&logoColor=00FF00)](https://dexscreener.com/solana/dwudwjvan7bzkw9zwlbyv6kspdlvhwzrqy6ebk8xzxkv)
-[![GitHub stars](https://img.shields.io/github/stars/glittercowboy/get-shit-done?style=for-the-badge&logo=github&color=181717)](https://github.com/glittercowboy/get-shit-done)
+[![GitHub stars](https://img.shields.io/github/stars/emiryasar/get-shit-done-cc-1m?style=for-the-badge&logo=github&color=181717)](https://github.com/emiryasar/get-shit-done-cc-1m)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 
 <br>
 
 ```bash
-npx get-shit-done-cc@latest
+npx get-shit-done-cc-1m@latest
 ```
 
 **Works on Mac, Windows, and Linux.**
@@ -42,6 +44,59 @@ npx get-shit-done-cc@latest
 [Why I Built This](#why-i-built-this) · [How It Works](#how-it-works) · [Commands](#commands) · [Why It Works](#why-it-works) · [User Guide](docs/USER-GUIDE.md)
 
 </div>
+
+---
+
+## What's Different in the 1M Fork
+
+This fork of [get-shit-done-cc-1m](https://github.com/emiryasar/get-shit-done-cc-1m) is optimized for Claude Code's 1M context window.
+
+### Expanded Capacity
+| Metric | Original (200k) | 1M Fork |
+|--------|-----------------|---------|
+| Tasks per plan | 2-3 | 5-8 |
+| Files per plan | 5-8 | 20-35 |
+| Parallel researchers | 4 | 6-8 |
+| Analysis paralysis guard | 5 reads | 15 reads |
+| Auto-fix attempts | 3 | 5 |
+| Debug iterations | 3 | 5 |
+| Codebase mappers | 4 | 6 |
+| Plan checker iterations | 3 | 4 |
+
+### Deep Codebase Awareness
+- Agents read ALL files in affected directories before planning/executing
+- Import chains traced 2-3 levels deep during verification
+- 50+ file reads before complex tasks is normal and expected
+- Package-specific CLAUDE.md files loaded for conventions
+
+### Comprehensive Research
+- WebSearch expanded to 25 results (up from 10)
+- 3+ independent source verification for critical claims
+- Quick --full mode adds parallel codebase scanner + domain researcher
+- New project research: 6 parallel agents (Stack, Features, Architecture, Pitfalls, Testing, Security)
+
+### "deep" Model Profile
+All 12 GSD agents run on Opus — zero model compromise:
+```
+/gsd:set-profile deep
+```
+
+### Parallel Execution
+- Wave-based parallel plan execution with worktree isolation
+- Background agents for concurrent research
+- Up to 5 concurrent agents (up from 3)
+
+### Agent Teams Support
+For complex phases, leverage Claude Code's experimental Agent Teams:
+- Multiple Claude instances coordinating via shared task list
+- Direct inter-agent messaging for cross-domain work
+- Enable: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+
+### Quality Assurance
+- Agents ask clarifying questions when uncertain (never guess)
+- 4 plan-checker revision iterations (up from 3)
+- Deep verification: import chains, cross-module wiring, stub detection
+- Must-haves goal-backward methodology preserved
 
 ---
 
@@ -76,7 +131,7 @@ People who want to describe what they want and have it built correctly — witho
 ## Getting Started
 
 ```bash
-npx get-shit-done-cc@latest
+npx get-shit-done-cc-1m@latest
 ```
 
 The installer prompts you to choose:
@@ -96,7 +151,7 @@ Verify with:
 GSD evolves fast. Update periodically:
 
 ```bash
-npx get-shit-done-cc@latest
+npx get-shit-done-cc-1m@latest
 ```
 
 <details>
@@ -104,21 +159,21 @@ npx get-shit-done-cc@latest
 
 ```bash
 # Claude Code
-npx get-shit-done-cc --claude --global   # Install to ~/.claude/
-npx get-shit-done-cc --claude --local    # Install to ./.claude/
+npx get-shit-done-cc-1m --claude --global   # Install to ~/.claude/
+npx get-shit-done-cc-1m --claude --local    # Install to ./.claude/
 
 # OpenCode (open source, free models)
-npx get-shit-done-cc --opencode --global # Install to ~/.config/opencode/
+npx get-shit-done-cc-1m --opencode --global # Install to ~/.config/opencode/
 
 # Gemini CLI
-npx get-shit-done-cc --gemini --global   # Install to ~/.gemini/
+npx get-shit-done-cc-1m --gemini --global   # Install to ~/.gemini/
 
 # Codex (skills-first)
-npx get-shit-done-cc --codex --global    # Install to ~/.codex/
-npx get-shit-done-cc --codex --local     # Install to ./.codex/
+npx get-shit-done-cc-1m --codex --global    # Install to ~/.codex/
+npx get-shit-done-cc-1m --codex --local     # Install to ./.codex/
 
 # All runtimes
-npx get-shit-done-cc --all --global      # Install to all directories
+npx get-shit-done-cc-1m --all --global      # Install to all directories
 ```
 
 Use `--global` (`-g`) or `--local` (`-l`) to skip the location prompt.
@@ -132,7 +187,7 @@ Use `--claude`, `--opencode`, `--gemini`, `--codex`, or `--all` to skip the runt
 Clone the repository and run the installer locally:
 
 ```bash
-git clone https://github.com/glittercowboy/get-shit-done.git
+git clone https://github.com/emiryasar/get-shit-done-cc-1m.git
 cd get-shit-done
 node bin/install.js --claude --local
 ```
@@ -265,7 +320,7 @@ Each plan is small enough to execute in a fresh context window. No degradation, 
 The system:
 
 1. **Runs plans in waves** — Parallel where possible, sequential when dependent
-2. **Fresh context per plan** — 200k tokens purely for implementation, zero accumulated garbage
+2. **Fresh context per plan** — 1M tokens purely for implementation, zero accumulated garbage
 3. **Commits per task** — Every task gets its own atomic commit
 4. **Verifies against goals** — Checks the codebase delivers what the phase promised
 
@@ -426,9 +481,9 @@ Every stage uses the same pattern: a thin orchestrator spawns specialized agents
 
 | Stage | Orchestrator does | Agents do |
 |-------|------------------|-----------|
-| Research | Coordinates, presents findings | 4 parallel researchers investigate stack, features, architecture, pitfalls |
+| Research | Coordinates, presents findings | 6-8 parallel researchers investigate stack, features, architecture, pitfalls |
 | Planning | Validates, manages iteration | Planner creates plans, checker verifies, loop until pass |
-| Execution | Groups into waves, tracks progress | Executors implement in parallel, each with fresh 200k context |
+| Execution | Groups into waves, tracks progress | Executors implement in parallel, each with fresh 1M context |
 | Verification | Presents results, routes next | Verifier checks codebase against goals, debuggers diagnose failures |
 
 The orchestrator never does heavy lifting. It spawns agents, waits, integrates results.
@@ -634,18 +689,18 @@ This prevents Claude from reading these files entirely, regardless of what comma
 
 **Commands not working as expected?**
 - Run `/gsd:help` to verify installation
-- Re-run `npx get-shit-done-cc` to reinstall
+- Re-run `npx get-shit-done-cc-1m` to reinstall
 
 **Updating to the latest version?**
 ```bash
-npx get-shit-done-cc@latest
+npx get-shit-done-cc-1m@latest
 ```
 
 **Using Docker or containerized environments?**
 
 If file reads fail with tilde paths (`~/.claude/...`), set `CLAUDE_CONFIG_DIR` before installing:
 ```bash
-CLAUDE_CONFIG_DIR=/home/youruser/.claude npx get-shit-done-cc --global
+CLAUDE_CONFIG_DIR=/home/youruser/.claude npx get-shit-done-cc-1m --global
 ```
 This ensures absolute paths are used instead of `~` which may not expand correctly in containers.
 
@@ -655,14 +710,14 @@ To remove GSD completely:
 
 ```bash
 # Global installs
-npx get-shit-done-cc --claude --global --uninstall
-npx get-shit-done-cc --opencode --global --uninstall
-npx get-shit-done-cc --codex --global --uninstall
+npx get-shit-done-cc-1m --claude --global --uninstall
+npx get-shit-done-cc-1m --opencode --global --uninstall
+npx get-shit-done-cc-1m --codex --global --uninstall
 
 # Local installs (current project)
-npx get-shit-done-cc --claude --local --uninstall
-npx get-shit-done-cc --opencode --local --uninstall
-npx get-shit-done-cc --codex --local --uninstall
+npx get-shit-done-cc-1m --claude --local --uninstall
+npx get-shit-done-cc-1m --opencode --local --uninstall
+npx get-shit-done-cc-1m --codex --local --uninstall
 ```
 
 This removes all GSD commands, agents, hooks, and settings while preserving your other configurations.
@@ -671,7 +726,7 @@ This removes all GSD commands, agents, hooks, and settings while preserving your
 
 ## Community Ports
 
-OpenCode, Gemini CLI, and Codex are now natively supported via `npx get-shit-done-cc`.
+OpenCode, Gemini CLI, and Codex are now natively supported via `npx get-shit-done-cc-1m`.
 
 These community ports pioneered multi-runtime support:
 
@@ -684,11 +739,11 @@ These community ports pioneered multi-runtime support:
 
 ## Star History
 
-<a href="https://star-history.com/#glittercowboy/get-shit-done&Date">
+<a href="https://star-history.com/#emiryasar/get-shit-done-cc-1m&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=glittercowboy/get-shit-done&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=glittercowboy/get-shit-done&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=glittercowboy/get-shit-done&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=emiryasar/get-shit-done-cc-1m&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=emiryasar/get-shit-done-cc-1m&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=emiryasar/get-shit-done-cc-1m&type=Date" />
  </picture>
 </a>
 

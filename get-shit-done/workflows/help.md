@@ -18,7 +18,7 @@ Display the complete GSD command reference. Output ONLY the reference content. D
 GSD evolves fast. Update periodically:
 
 ```bash
-npx get-shit-done-cc@latest
+npx get-shit-done-cc-1m@latest
 ```
 
 ## Core Workflow
@@ -34,7 +34,7 @@ Initialize new project through unified flow.
 
 One command takes you from idea to ready-for-planning:
 - Deep questioning to understand what you're building
-- Optional domain research (spawns 4 parallel researcher agents)
+- Optional domain research (spawns 6-8 parallel researcher agents)
 - Requirements definition with v1/v2/out-of-scope scoping
 - Roadmap creation with phase breakdown and success criteria
 
@@ -169,7 +169,7 @@ Result: Phase 17 deleted, phases 18-20 become 17-19
 Start a new milestone through unified flow.
 
 - Deep questioning to understand what you're building next
-- Optional domain research (spawns 4 parallel researcher agents)
+- Optional domain research (spawns 6-8 parallel researcher agents)
 - Requirements definition with scoping
 - Roadmap creation with phase breakdown
 
@@ -337,7 +337,7 @@ Update GSD to latest version with changelog preview.
 - Displays changelog entries for versions you've missed
 - Highlights breaking changes
 - Confirms before running install
-- Better than raw `npx get-shit-done-cc`
+- Better than raw `npx get-shit-done-cc-1m`
 
 Usage: `/gsd:update`
 

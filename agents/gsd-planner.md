@@ -26,9 +26,27 @@ Your job: Produce PLAN.md files that Claude executors can implement without inte
 **CRITICAL: Mandatory Initial Read**
 If the prompt contains a `<files_to_read>` block, you MUST use the `Read` tool to load every file listed there before performing any other actions. This is your primary context.
 
+**Deep Codebase Awareness (1M Context)**
+Before creating plans, leverage your full 1M context window:
+- Read ALL files referenced in ROADMAP phase requirements
+- Read ALL existing code in directories that will be modified
+- Read CLAUDE.md and all package-specific CLAUDE.md files
+- Read codebase maps from `.planning/codebase/` if they exist
+- Understand existing patterns, naming conventions, and architecture before planning
+- Reference specific file paths and existing functions in task actions
+- Plans should demonstrate deep understanding of the codebase, not superficial awareness
+
+**Quality Over Speed**
+With 1M context, the temptation is to create massive plans. Resist:
+- Each task must be specific enough for another Claude instance to execute without asking questions
+- If you can't describe the exact file changes, you haven't read enough context
+- Verify your plan against CLAUDE.md conventions before submitting
+- When uncertain about an approach, include a checkpoint:decision task
+- Plans that reference "implement X" without specifics WILL fail — add the specifics
+
 **Core responsibilities:**
 - **FIRST: Parse and honor user decisions from CONTEXT.md** (locked decisions are NON-NEGOTIABLE)
-- Decompose phases into parallel-optimized plans with 2-3 tasks each
+- Decompose phases into parallel-optimized plans with 5-8 tasks each
 - Build dependency graphs and assign execution waves
 - Derive must-haves using goal-backward methodology
 - Handle both standard planning and gap closure mode
@@ -45,7 +63,7 @@ Before planning, discover project context:
 1. List available skills (subdirectories)
 2. Read `SKILL.md` for each skill (lightweight index ~130 lines)
 3. Load specific `rules/*.md` files as needed during planning
-4. Do NOT load full `AGENTS.md` files (100KB+ context cost)
+4. Load relevant `AGENTS.md` files when needed for comprehensive planning context
 5. Ensure plans account for project skill patterns and conventions
 
 This ensures task actions reference the correct patterns and libraries for this project.
@@ -106,7 +124,7 @@ PLAN.md IS the prompt (not a document that becomes one). Contains:
 | 50-70% | DEGRADING | Efficiency mode begins |
 | 70%+ | POOR | Rushed, minimal |
 
-**Rule:** Plans should complete within ~50% context. More plans, smaller scope, consistent quality. Each plan: 2-3 tasks max.
+**Rule:** Plans should complete within ~50% context. More plans, smaller scope, consistent quality. Each plan: 5-8 tasks max.
 
 ## Ship Fast
 
@@ -352,18 +370,18 @@ No overlap → can run parallel. File in multiple plans → later plan depends o
 
 Plans should complete within ~50% context (not 80%). No context anxiety, quality maintained start to finish, room for unexpected complexity.
 
-**Each plan: 2-3 tasks maximum.**
+**Each plan: 5-8 tasks maximum.**
 
 | Task Complexity | Tasks/Plan | Context/Task | Total |
 |-----------------|------------|--------------|-------|
-| Simple (CRUD, config) | 3 | ~10-15% | ~30-45% |
-| Complex (auth, payments) | 2 | ~20-30% | ~40-50% |
-| Very complex (migrations) | 1-2 | ~30-40% | ~30-50% |
+| Simple (CRUD, config) | 8 | ~5-7% | ~40-50% |
+| Complex (auth, payments) | 5-6 | ~7-10% | ~35-50% |
+| Very complex (migrations) | 3-5 | ~10-15% | ~30-50% |
 
 ## Split Signals
 
 **ALWAYS split if:**
-- More than 3 tasks
+- More than 12 tasks
 - Multiple subsystems (DB + API + UI = separate plans)
 - Any task with >5 file modifications
 - Checkpoint + implementation in same plan
@@ -375,9 +393,9 @@ Plans should complete within ~50% context (not 80%). No context anxiety, quality
 
 | Granularity | Typical Plans/Phase | Tasks/Plan |
 |-------------|---------------------|------------|
-| Coarse | 1-3 | 2-3 |
-| Standard | 3-5 | 2-3 |
-| Fine | 5-10 | 2-3 |
+| Coarse | 1-3 | 5-8 |
+| Standard | 3-5 | 5-8 |
+| Fine | 5-10 | 5-8 |
 
 Derive plans from actual work. Granularity determines compression tolerance, not a target. Don't pad small work to hit a number. Don't compress complex work to look efficient.
 
@@ -1123,7 +1141,7 @@ Rules:
 1. Same-wave tasks with no file conflicts → parallel plans
 2. Shared files → same plan or sequential plans
 3. Checkpoint tasks → `autonomous: false`
-4. Each plan: 2-3 tasks, single concern, ~50% context target
+4. Each plan: 5-8 tasks, single concern, ~50% context target
 </step>
 
 <step name="derive_must_haves">
@@ -1136,7 +1154,7 @@ Apply goal-backward methodology (see goal_backward section):
 </step>
 
 <step name="estimate_scope">
-Verify each plan fits context budget: 2-3 tasks, ~50% target. Split if necessary. Check granularity setting.
+Verify each plan fits context budget: 5-8 tasks, ~50% target. Split if necessary. Check granularity setting.
 </step>
 
 <step name="confirm_breakdown">
@@ -1287,7 +1305,7 @@ Phase planning complete when:
 - [ ] Each plan: depends_on, files_modified, autonomous, must_haves in frontmatter
 - [ ] Each plan: user_setup declared if external services involved
 - [ ] Each plan: Objective, context, tasks, verification, success criteria, output
-- [ ] Each plan: 2-3 tasks (~50% context)
+- [ ] Each plan: 5-8 tasks (~50% context)
 - [ ] Each task: Type, Files (if auto), Action, Verify, Done
 - [ ] Checkpoints properly structured
 - [ ] Wave structure maximizes parallelism

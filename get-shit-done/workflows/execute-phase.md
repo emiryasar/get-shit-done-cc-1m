@@ -104,8 +104,8 @@ Execute each wave in sequence. Within a wave: parallel if `PARALLELIZATION=true`
 
 2. **Spawn executor agents:**
 
-   Pass paths only — executors read files themselves with their fresh 200k context.
-   This keeps orchestrator context lean (~10-15%).
+   Pass paths only — executors read files themselves with their fresh 1M context.
+   This keeps orchestrator context lean (~15-20%).
 
    ```
    Task(
@@ -152,6 +152,7 @@ Execute each wave in sequence. Within a wave: parallel if `PARALLELIZATION=true`
    - Verify first 2 files from `key-files.created` exist on disk
    - Check `git log --oneline --all --grep="{phase}-{plan}"` returns ≥1 commit
    - Check for `## Self-Check: FAILED` marker
+   - Verify executor read relevant codebase files (check SUMMARY.md references ≥10 files for complex tasks)
 
    If ANY spot-check fails: report which plan failed, route to failure handler — ask "Retry plan?" or "Continue with remaining waves?"
 
@@ -223,6 +224,22 @@ When executor returns a checkpoint AND (`AUTO_CHAIN` is `"true"` OR `AUTO_CFG` i
 8. Repeat until plan completes or user stops
 
 **Why fresh agent, not resume:** Resume relies on internal serialization that breaks with parallel tool calls. Fresh agents with explicit state are more reliable.
+
+**Worktree Isolation (1M Context Enhancement):**
+When `worktree_isolation` is enabled in config.json, parallel executors run in isolated git worktrees:
+- Each executor gets its own worktree via `isolation: "worktree"` parameter
+- Prevents file conflicts between parallel plans modifying overlapping files
+- Worktrees auto-cleanup if no changes made; persist for review if changes exist
+- Merge strategy: orchestrator merges worktree branches sequentially after wave completes
+
+**Agent Teams Mode (Experimental):**
+When `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set and the phase has 3+ independent plans:
+- Consider spawning an Agent Team instead of sequential subagents
+- Lead agent coordinates, teammates implement independent plans in parallel
+- Teammates communicate directly via mailbox for cross-plan dependencies
+- Use for complex phases with multiple domains (e.g., SDK + Backend + Infrastructure)
+- Team size: 3-5 teammates, each handling 1-2 plans
+- Requires Claude Code v2.1.32+
 
 **Checkpoints in parallel waves:** Agent pauses and returns while other parallel agents may complete. Present checkpoint, spawn continuation, wait for all before next wave.
 </step>
@@ -429,7 +446,7 @@ STOP. Do not proceed to auto-advance or transition.
 ╚══════════════════════════════════════════╝
 ```
 
-Execute the transition workflow inline (do NOT use Task — orchestrator context is ~10-15%, transition needs phase completion data already in context):
+Execute the transition workflow inline (do NOT use Task — orchestrator context is ~15-20%, transition needs phase completion data already in context):
 
 Read and follow `~/.claude/get-shit-done/workflows/transition.md`, passing through the `--auto` flag so it propagates to the next phase invocation.
 
@@ -441,7 +458,7 @@ The workflow ends. The user runs `/gsd:progress` or invokes the transition workf
 </process>
 
 <context_efficiency>
-Orchestrator: ~10-15% context. Subagents: fresh 200k each. No polling (Task blocks). No context bleed.
+Orchestrator: ~15-20% context. Subagents: fresh 1M context each. No polling (Task blocks). No context bleed.
 </context_efficiency>
 
 <failure_handling>

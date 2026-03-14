@@ -68,7 +68,7 @@ A detailed reference for workflows, troubleshooting, and configuration. For quic
 ```
   /gsd:plan-phase N
          │
-         ├── Phase Researcher (x4 parallel)
+         ├── Phase Researcher (x6-8 parallel)
          │     ├── Stack researcher
          │     ├── Features researcher
          │     ├── Architecture researcher

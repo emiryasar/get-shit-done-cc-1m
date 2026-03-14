@@ -1,9 +1,9 @@
 {
-  "name": "get-shit-done-cc",
-  "version": "1.22.4",
-  "description": "A meta-prompting, context engineering and spec-driven development system for Claude Code, OpenCode, Gemini and Codex by TÂCHES.",
+  "name": "get-shit-done-cc-1m",
+  "version": "1.22.4-1m.2",
+  "description": "GSD fork optimized for 1M context windows. Deep codebase awareness, parallel research (6-8 agents), expanded thresholds, Opus max effort, worktree isolation. Based on get-shit-done-cc by TÂCHES.",
   "bin": {
-    "get-shit-done-cc": "bin/install.js"
+    "get-shit-done-cc-1m": "bin/install.js"
   },
   "files": [
     "bin",
@@ -29,11 +29,21 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/glittercowboy/get-shit-done.git"
+    "url": "git+https://github.com/emiryasar/get-shit-done-cc-1m.git"
   },
-  "homepage": "https://github.com/glittercowboy/get-shit-done",
+  "homepage": "https://github.com/emiryasar/get-shit-done-cc-1m",
   "bugs": {
-    "url": "https://github.com/glittercowboy/get-shit-done/issues"
+    "url": "https://github.com/emiryasar/get-shit-done-cc-1m/issues"
+  },
+  "gsd_1m_config": {
+    "base_version": "1.22.4",
+    "context_tier": "1m",
+    "default_profile": "deep",
+    "default_effort": "max",
+    "parallel_researchers": 8,
+    "max_tasks_per_plan": 8,
+    "max_files_per_plan": 35,
+    "analysis_paralysis_threshold": 15
   },
   "engines": {
     "node": ">=16.7.0"

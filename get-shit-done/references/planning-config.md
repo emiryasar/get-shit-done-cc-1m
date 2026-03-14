@@ -12,7 +12,14 @@ Configuration options for `.planning/` directory behavior.
   "branching_strategy": "none",
   "phase_branch_template": "gsd/phase-{phase}-{slug}",
   "milestone_branch_template": "gsd/{milestone}-{slug}"
-}
+},
+"context_tier": "1m",
+"research_depth": "comprehensive",
+"worktree_isolation": true,
+"parallel_researchers": 8,
+"max_tasks_per_plan": 8,
+"max_files_per_plan": 35,
+"analysis_paralysis_threshold": 15
 ```
 
 | Option | Default | Description |
@@ -22,6 +29,13 @@ Configuration options for `.planning/` directory behavior.
 | `git.branching_strategy` | `"none"` | Git branching approach: `"none"`, `"phase"`, or `"milestone"` |
 | `git.phase_branch_template` | `"gsd/phase-{phase}-{slug}"` | Branch template for phase strategy |
 | `git.milestone_branch_template` | `"gsd/{milestone}-{slug}"` | Branch template for milestone strategy |
+| `context_tier` | `"1m"` | `"200k"` (legacy) or `"1m"` (default). Controls threshold scaling across all agents |
+| `research_depth` | `"comprehensive"` | `"standard"`, `"deep"`, or `"comprehensive"`. Controls WebSearch limits and multi-source requirements |
+| `worktree_isolation` | `true` | Enable git worktree isolation for parallel executors |
+| `parallel_researchers` | `8` | Number of parallel research agents (default 8 for 1m, 4 for 200k) |
+| `max_tasks_per_plan` | `8` | Override default task limit per plan |
+| `max_files_per_plan` | `35` | Override default file limit per plan |
+| `analysis_paralysis_threshold` | `15` | Override consecutive reads before action warning |
 </config_schema>
 
 <commit_docs_behavior>

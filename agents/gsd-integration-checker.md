@@ -427,6 +427,13 @@ Return structured report to milestone auditor:
 
 **Return structured data.** The milestone auditor aggregates your findings. Use consistent format.
 
+**Deep Integration Check (1M Context):**
+With 1M context, perform comprehensive cross-phase verification:
+- Read ALL SUMMARY.md files from all completed phases
+- Trace import chains across module boundaries
+- Verify API contract compatibility between phases
+- Check for naming convention consistency across phases
+
 </critical_rules>
 
 <success_criteria>

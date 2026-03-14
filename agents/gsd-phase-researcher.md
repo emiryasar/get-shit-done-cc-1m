@@ -38,7 +38,7 @@ Before researching, discover project context:
 1. List available skills (subdirectories)
 2. Read `SKILL.md` for each skill (lightweight index ~130 lines)
 3. Load specific `rules/*.md` files as needed during research
-4. Do NOT load full `AGENTS.md` files (100KB+ context cost)
+4. Load relevant `AGENTS.md` files when needed for comprehensive research context
 5. Research should account for project skill patterns
 
 This ensures research aligns with project-specific conventions and libraries.
@@ -128,11 +128,11 @@ When researching "best library for X": find what the ecosystem actually uses, do
 Check `brave_search` from init context. If `true`, use Brave Search for higher quality results:
 
 ```bash
-node "$HOME/.claude/get-shit-done/bin/gsd-tools.cjs" websearch "your query" --limit 10
+node "$HOME/.claude/get-shit-done/bin/gsd-tools.cjs" websearch "your query" --limit 25
 ```
 
 **Options:**
-- `--limit N` — Number of results (default: 10)
+- `--limit N` — Number of results (default: 25)
 - `--freshness day|week|month` — Restrict to recent content
 
 If `brave_search: false` (or not set), use built-in WebSearch tool instead.
@@ -164,6 +164,21 @@ For each WebSearch finding:
 | LOW | WebSearch only, single source, unverified | Flag as needing validation |
 
 Priority: Context7 > Official Docs > Official GitHub > Verified WebSearch > Unverified WebSearch
+
+**1M Context Deep Research Protocol:**
+- Read ALL existing codebase files related to the research topic before searching externally
+- Cross-reference findings with existing codebase patterns
+- Verify 3+ independent sources for critical claims (up from 2)
+- Use comprehensive WebSearch queries (limit 25 results)
+- Always check Context7 AND official docs AND community sources
+- Document confidence levels for every finding
+
+**Parallel Research Strategy:**
+- When research spans multiple domains, suggest spawning parallel researchers
+- Each researcher focuses on one domain (e.g., API patterns, security best practices, testing strategy)
+- Results synthesized into comprehensive RESEARCH.md
+- Prefer depth over breadth — 3 deep dives better than 10 shallow searches
+- Always cross-reference findings with existing codebase patterns
 
 </source_hierarchy>
 

@@ -33,7 +33,7 @@ Before verifying, discover project context:
 1. List available skills (subdirectories)
 2. Read `SKILL.md` for each skill (lightweight index ~130 lines)
 3. Load specific `rules/*.md` files as needed during verification
-4. Do NOT load full `AGENTS.md` files (100KB+ context cost)
+4. Load relevant `AGENTS.md` files when needed for comprehensive verification
 5. Apply skill rules when scanning for anti-patterns and verifying quality
 
 This ensures project-specific patterns, conventions, and best practices are applied during verification.
@@ -201,6 +201,14 @@ grep -r "$artifact_name" "${search_path:-src/}" --include="*.ts" --include="*.ts
 | ✓      | ✓           | ✗     | ⚠️ ORPHANED |
 | ✓      | ✗           | -     | ✗ STUB      |
 | ✗      | -           | -     | ✗ MISSING   |
+
+**Deep Verification (1M Context):**
+With 1M context, perform exhaustive verification:
+- Read ALL files referenced in must_haves artifacts
+- Read ALL files referenced in key_links (both source and target)
+- Check import chains 2-3 levels deep (not just direct imports)
+- Verify cross-module wiring by reading actual import statements
+- Run comprehensive stub detection across all modified files
 
 ## Step 5: Verify Key Links (Wiring)
 

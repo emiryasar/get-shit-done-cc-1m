@@ -333,7 +333,7 @@ async function cmdWebsearch(query, options, raw) {
 
   const params = new URLSearchParams({
     q: query,
-    count: String(options.limit || 10),
+    count: String(options.limit || 25),
     country: 'us',
     search_lang: 'en',
     text_decorations: 'false'
